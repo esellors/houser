@@ -26,8 +26,8 @@ class Wizard extends Component {
             city: store.getState().city,
             state: store.getState().state,
             zip: store.getState().zip
-         })
-      })
+         });
+      });
    }
    handleInputChange(e) {
       const inputID = e.target.id;
