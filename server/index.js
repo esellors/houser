@@ -13,7 +13,7 @@ massive(DATABASE_STRING).then(db => {
 });
 
 app.get('/api/houses', housesCtrl.getAllHouses);
-
+app.post('/api/houses', housesCtrl.addHouse);
 
 
 

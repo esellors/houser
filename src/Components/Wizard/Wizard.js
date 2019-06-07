@@ -1,55 +1,120 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import axios from 'axios';
+import store from '../../store';
+import {Link, Redirect} from 'react-router-dom';
 
 class Wizard extends Component {
    constructor(props) {
       super(props);
+      const reduxState = store.getState();
       this.state = {
-         name: '',
-         address: '',
-         city: '',
-         state: '',
-         zip: 0
+         redirect: false,
+         name: reduxState.name,
+         address: reduxState.address,
+         city: reduxState.city,
+         state: reduxState.state,
+         zip: reduxState.zip
       }
       this.handleInputChange = this.handleInputChange.bind(this);
+      this.addHouse = this.addHouse.bind(this);
+   }
+   componentDidMount() {
+      store.subscribe(() => {
+         this.setState({
+            name: store.getState().name,
+            address: store.getState().address,
+            city: store.getState().city,
+            state: store.getState().state,
+            zip: store.getState().zip
+         })
+      })
    }
    handleInputChange(e) {
-      console.log('hit')
       const inputID = e.target.id;
       const inputValue = e.target.value;
-      console.log(inputID)
-
       switch(inputID) {
          case 'input_name':
-            this.setState({
-               name: inputValue
+            store.dispatch({
+               type: 'UPDATE_NAME',
+               payload: inputValue
             });
             break;
          case 'input_address':
-            this.setState({
-               address: inputValue
+            store.dispatch({
+               type: 'UPDATE_ADDRESS',
+               payload: inputValue
             });
             break;
          case 'input_city':
-            this.setState({
-               city: inputValue
+            store.dispatch({
+               type: 'UPDATE_CITY',
+               payload: inputValue
             });
             break;
          case 'input_state':
-            this.setState({
-               state: inputValue
+            store.dispatch({
+               type: 'UPDATE_STATE',
+               payload: inputValue
             });
             break;
          case 'input_zip':
-            this.setState({
-               zip: inputValue
+            store.dispatch({
+               type: 'UPDATE_ZIP',
+               payload: inputValue
             });
             break;
          default:
             break;
       }
    }
+   addHouse(e) {
+      e.preventDefault();
+      const {name, address, city, state, zip} = this.state;
+
+      const newHouse = {
+         name,
+         address,
+         city,
+         state,
+         zip
+      }
+
+      axios.post('/api/houses', newHouse)
+         .then(() => {
+            this.setState({
+               redirect: true
+            })
+            store.dispatch({
+               type: 'UPDATE_NAME',
+               payload: ''
+            });
+            store.dispatch({
+               type: 'UPDATE_ADDRESS',
+               payload: ''
+            });
+            store.dispatch({
+               type: 'UPDATE_CITY',
+               payload: ''
+            });
+            store.dispatch({
+               type: 'UPDATE_STATE',
+               payload: ''
+            });
+            store.dispatch({
+               type: 'UPDATE_ZIP',
+               payload: ''
+            });
+         })
+         .catch(err => console.log(err.response));
+   }
    render() {
+      
+      const {redirect} = this.state;
+
+      if(redirect) {
+         return <Redirect to='/' />
+      }
+
       return (
          <div id='wizard_container'>
             <header>
@@ -84,6 +149,10 @@ class Wizard extends Component {
                      </label>
                      <input id='input_zip' type='text' value={this.state.zip} onChange={this.handleInputChange} />
                   </span>
+                  
+                  <Link to='/'>
+                     <button onClick={this.addHouse}>Complete</button>
+                  </Link>
                </form>
             </section>
          </div>

@@ -11,9 +11,6 @@ class Dashboard extends Component {
       }
    }
    componentDidMount() {
-      this.getAllHouses();
-   }
-   getAllHouses() {
       axios.get('/api/houses')
          .then(res => {
             this.setState({
@@ -24,7 +21,8 @@ class Dashboard extends Component {
    }
    render() {
 
-      const {houses} = this.state;
+      let {houses} = this.state;
+      houses.reverse();
 
       return (
          <div id='dashboard_container'>
