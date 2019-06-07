@@ -1,3 +1,8 @@
+main {
+  box-sizing: border-box;
+  padding: 15px;
+}
+
 #app_container {
   width: 800px;
   margin: 0 auto;
@@ -12,8 +17,26 @@
   background: darkorange;
 }
 
-#house_container {
+#dashboard_container header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.house_container {
+  width: 500px;
+  margin: 0 auto;
   background: orange;
+}
+
+.house_container header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.house_container span {
+  font-weight: 400;
 }
 
 #wizard_container {

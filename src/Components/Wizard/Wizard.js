@@ -56,7 +56,7 @@ class Wizard extends Component {
                <h1>Wizard</h1>
                <Link to='/'><button>Cancel</button></Link>
             </header>
-            <main>
+            <section>
                <form>
                   <label htmlFor='input_name'>
                      Property Name
@@ -85,8 +85,7 @@ class Wizard extends Component {
                      <input id='input_zip' type='text' value={this.state.zip} onChange={this.handleInputChange} />
                   </span>
                </form>
-            </main>
-
+            </section>
          </div>
       );
    }
