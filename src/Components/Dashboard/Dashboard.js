@@ -11,7 +11,6 @@ class Dashboard extends Component {
       this.state = {
          houses: reduxState.houses
       }
-      // this.deleteHouse = this.deleteHouse.bind(this);
    }
    componentDidMount() {
       axios.get('/api/houses')

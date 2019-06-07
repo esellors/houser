@@ -42,3 +42,8 @@ main {
 #wizard_container {
   background: green;
 }
+
+#change_info {
+  display: flex;
+  justify-content: space-around;
+}
